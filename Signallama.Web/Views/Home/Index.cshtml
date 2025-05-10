@@ -6,3 +6,17 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<div id="chatPage" class="chat-container">
+    <div class="chat-header">
+        <h2 id="chatGroupName">Chat</h2>
+        <div class="user-info">
+            <span id="connectionState" class="badge text-bg-danger"></span>
+        </div>
+    </div>
+    <div id="chatMessages" class="chat-messages"></div>
+    <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Type your message here...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>

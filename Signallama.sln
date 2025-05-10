@@ -9,10 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{9B32E985-4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signallama.Mcp", "Signallama.Mcp\Signallama.Mcp.csproj", "{90E5F0EF-6548-4C54-BA6A-D73EB65FCF25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signallama.Interfaces", "Signallama.Interfaces\Signallama.Interfaces.csproj", "{6D06D2C5-ADD3-4DCB-B174-3D4158C54285}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signallama.Logic", "Signallama.Logic\Signallama.Logic.csproj", "{C5B73F91-5745-4B05-BFE6-9AAFF715F0CD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,13 +23,5 @@ Global
 		{90E5F0EF-6548-4C54-BA6A-D73EB65FCF25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90E5F0EF-6548-4C54-BA6A-D73EB65FCF25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90E5F0EF-6548-4C54-BA6A-D73EB65FCF25}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D06D2C5-ADD3-4DCB-B174-3D4158C54285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D06D2C5-ADD3-4DCB-B174-3D4158C54285}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D06D2C5-ADD3-4DCB-B174-3D4158C54285}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D06D2C5-ADD3-4DCB-B174-3D4158C54285}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C5B73F91-5745-4B05-BFE6-9AAFF715F0CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C5B73F91-5745-4B05-BFE6-9AAFF715F0CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C5B73F91-5745-4B05-BFE6-9AAFF715F0CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C5B73F91-5745-4B05-BFE6-9AAFF715F0CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

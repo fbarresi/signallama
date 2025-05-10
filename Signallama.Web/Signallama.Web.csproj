@@ -26,10 +26,6 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
-    
-    <ItemGroup>
-      <ProjectReference Include="..\Signallama.Logic\Signallama.Logic.csproj" />
-    </ItemGroup>
   
 
 </Project>

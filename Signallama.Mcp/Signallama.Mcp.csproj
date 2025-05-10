@@ -25,10 +25,5 @@
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Signallama.Interfaces\Signallama.Interfaces.csproj" />
-      <ProjectReference Include="..\Signallama.Logic\Signallama.Logic.csproj" />
-    </ItemGroup>
-
 
 </Project>
