@@ -42,6 +42,7 @@ builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration
 builder.Services.AddMcpServer()
     .WithHttpTransport()
     .WithTools<BottleTool>()
+    .WithTools<NoTool>()
     //add more tools here
     ;
 
@@ -68,12 +69,12 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Metrics
+builder.Services.AddSingleton(_ =>
+{
+    var client = new HttpClient() { BaseAddress = new Uri("https://naas.isalman.dev/") };
+    return client;
+});
 
-AppMetricsServiceCollectionExtensions.AddMetrics(builder.Services);
-builder.Services.AddMetricsEndpoints();
-builder.Services.AddMetricsTrackingMiddleware();
-builder.Services.AddMvcCore().AddMetricsCore();
 
 // allow run as Service
 
@@ -110,8 +111,5 @@ app.MapHealthChecks("/health");
 
 // MCP
 app.MapMcp();
-
-app.UseMetricsAllMiddleware();
-app.UseMetricsAllEndpoints();
 
 app.Run();

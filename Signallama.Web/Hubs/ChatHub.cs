@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.AI;
 using Signallama.Interfaces.HubClients;
 
@@ -12,7 +13,9 @@ public class ChatHub : Hub<IWebClient>
         options.ConversationId = conversationId;
         await foreach (var update in client.GetStreamingResponseAsync(message, options))
         {
-            await Clients.Caller.ShowReply(update.Text);
+            var regex = new Regex(@"\<think\>[\s\S]*\<\/think\>");
+            var reply = regex.Replace(update.Text, string.Empty).Trim();
+            await Clients.Caller.ShowReply(reply);
         }
         
     }

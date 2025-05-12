@@ -7,7 +7,7 @@ namespace Signallama.Mcp.Tools;
 public class BottleTool
 {
     [McpServerTool(Name = "bottle"), Description("sends a message in a bottle")]
-    public static string Reverse(string message)
+    public static string SendABottle(string message)
     {
         return $"bottle: {message}";
     }

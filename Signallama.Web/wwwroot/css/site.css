@@ -46,7 +46,7 @@ body {
 }
 
 .chat-header {
-  background-color: #007bff;
+  background-color: #5084bc;
   color: white;
   padding: 10px;
   border-radius: 10px 10px 0 0;
@@ -81,6 +81,7 @@ body {
   overflow-y: auto; /* Enable scrollbar when content overflows */
   background-color: #f9f9f9;
   border-bottom: 1px solid #ccc;
+  
 }
 
 .chat-input {

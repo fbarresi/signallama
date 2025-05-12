@@ -57,7 +57,7 @@ builder.Services.AddSingleton(client);
 
 var sse = new SseClientTransport(new()
 {
-    Endpoint = new Uri("https://localhost:7161"),
+    Endpoint = new Uri("https://localhost:7170"),
     UseStreamableHttp = true,
     Name = "EchoServer",
     ConnectionTimeout = TimeSpan.FromSeconds(10),
