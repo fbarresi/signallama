@@ -29,6 +29,15 @@ connection.onclose(() => {
     updateConnectionStatus(false);
 });
 
+connection.onreconnecting(() => {
+    updateConnectionStatusOnReconnect(true);
+});
+
+connection.onreconnected(() => {
+    updateConnectionStatusOnReconnect(false);
+});
+
+
 // start the connection
 connection.start().then(function () {
     //perform stuff here on connected
@@ -54,6 +63,19 @@ function updateConnectionStatus(isConnected) {
         statusElement.innerHTML = 'Disconnected';
         statusElement.classList.remove('text-bg-success');
         statusElement.classList.add('text-bg-danger');
+    }
+}
+
+function updateConnectionStatusOnReconnect(isReconnecting) {
+    const statusElement = document.getElementById('connectionState');
+    if (isReconnecting) {
+        statusElement.innerHTML = 'Reconnecting';
+        statusElement.classList.remove('text-bg-success');
+        statusElement.classList.add('text-bg-warning');
+    } else {
+        statusElement.innerHTML = 'Connected';
+        statusElement.classList.remove('text-bg-warning');
+        statusElement.classList.add('text-bg-success');
     }
 }
 

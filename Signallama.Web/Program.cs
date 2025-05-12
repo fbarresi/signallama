@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using ModelContextProtocol.Client;
 using ModelContextProtocol.Protocol.Transport;
 using Serilog;
+using Serilog.Core;
 using Signallama.Logic.Hubs;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -13,6 +14,11 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 });
 
 //Log
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateBootstrapLogger();
+
+Log.Information("Starting up!");
 
 builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration));
 
@@ -55,32 +61,39 @@ var client = new ChatClientBuilder(new OllamaChatClient(new Uri(settings.ChatCli
 
 builder.Services.AddSingleton(client);
 
-var sse = new SseClientTransport(new()
-{
-    Endpoint = new Uri("https://localhost:7170"),
-    UseStreamableHttp = true,
-    Name = "EchoServer",
-    ConnectionTimeout = TimeSpan.FromSeconds(10),
-    AdditionalHeaders = null
-});
-
-await using var mcpClient = await McpClientFactory.CreateAsync(sse, new McpClientOptions
-{
-    Capabilities = new() { Sampling = new() { SamplingHandler = client.CreateSamplingHandler() } },
-});
-
-var tools = await mcpClient.ListToolsAsync();
-foreach (var tool in tools)
-{
-    Console.WriteLine($"Connected to server with tools: {tool.Name}");
-}
-
 var chatOptions = new ChatOptions
 {
-    // ModelId = "phi4-mini",
     ModelId = settings.ModelId,
-    Tools = [.. tools],
 };
+
+try
+{
+    var sse = new SseClientTransport(new()
+    {
+        Endpoint = new Uri("https://localhost:7170"),
+        UseStreamableHttp = true,
+        Name = "MyServer",
+        ConnectionTimeout = TimeSpan.FromSeconds(10),
+        AdditionalHeaders = null
+    });
+
+    await using var mcpClient = await McpClientFactory.CreateAsync(sse, new McpClientOptions
+    {
+        Capabilities = new() { Sampling = new() { SamplingHandler = client.CreateSamplingHandler() } },
+    });
+
+    var tools = await mcpClient.ListToolsAsync();
+    foreach (var tool in tools)
+    {
+        Log.Information($"Connected to server with tools: {tool.Name}");
+    }
+    chatOptions.Tools = [..tools];
+}
+catch (Exception e)
+{
+    Log.Error(e, "Error connecting to MCP server");
+}
+
 
 builder.Services.AddSingleton(chatOptions);
 //
