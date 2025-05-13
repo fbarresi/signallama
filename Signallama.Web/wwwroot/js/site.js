@@ -14,7 +14,6 @@ document.getElementById('chatInput').addEventListener('keydown', function (event
     const textValue = document.getElementById('chatInput').value;
     if (textValue && event.key === 'Enter') {
         sendMessage();
-        document.getElementById( 'send' ).scrollIntoView();
     }
 });
 
@@ -22,6 +21,9 @@ document.getElementById('chatInput').addEventListener('keydown', function (event
 connection.on("ShowReply", function (message) {
     //console.log(message);
     appendMessage(false, `${message}`);
+
+    const typing = document.getElementById('typing');
+    typing.classList.add('d-none');
     document.getElementById( 'send' ).scrollIntoView();
 });
 
@@ -85,7 +87,11 @@ function sendMessage() {
         appendMessage(true, message);
         document.getElementById('chatInput').value = '';
         connection.send("Send", conversationId, message);
+
+        const typing = document.getElementById('typing');
+        typing.classList.remove('d-none');
     }
+    document.getElementById( 'send' ).scrollIntoView();
 }
 
 function appendMessage(isSender, message) {

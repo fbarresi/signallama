@@ -80,8 +80,12 @@ body {
   padding: 10px;
   overflow-y: auto; /* Enable scrollbar when content overflows */
   background-color: #f9f9f9;
+}
+
+.typing {
+  padding: 4px;
+  background-color: #f9f9f9;
   border-bottom: 1px solid #ccc;
-  
 }
 
 .chat-input {
@@ -108,4 +112,52 @@ body {
 
 .chat-input button:hover {
   background-color: #0056b3;
+}
+
+.jumping-dots-loader {
+  /*width: 100px;*/
+  /*height: 100px;*/
+  border-radius: 100%;
+  position: relative;
+  margin: 0 auto
+}
+
+.jumping-dots-loader span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+  background-color: rgb(87, 132, 189);
+  /*margin: 35px 5px*/
+}
+
+.jumping-dots-loader span:nth-child(1) {
+  animation: bounce 1s ease-in-out infinite
+}
+
+.jumping-dots-loader span:nth-child(2) {
+  animation: bounce 1s ease-in-out 0.33s infinite
+}
+
+.jumping-dots-loader span:nth-child(3) {
+  animation: bounce 1s ease-in-out 0.66s infinite
+}
+
+@keyframes bounce {
+
+  0%,
+  75%,
+  100% {
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    -o-transform: translateY(0);
+    transform: translateY(0)
+  }
+
+  25% {
+    -webkit-transform: translateY(-4px);
+    -ms-transform: translateY(-4px);
+    -o-transform: translateY(-4px);
+    transform: translateY(-4px)
+  }
 }
