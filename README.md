@@ -26,13 +26,51 @@ Welcome to the **Signallama**, a lightweight and modern chat interface built usi
 - .NET Core SDK
 - MCP Server setup (optional - your own implementation)
 
+### Configure your MCP in `appsettings.json`
+
+Input your SSE Server or Stdio in the section McpSettings: 
+
+````json
+"McpSettings": {
+    "Sse": [
+      {
+        "Endpoint": "https://localhost:7170",
+        "UseStreamableHttp": true,
+        "Name": "MyServer",
+        "ConnectionTimeout": "00:00:10"
+      }
+    ]
+  }
+````
+
+or for example using external project over stdio:
+````json
+"McpSettings": {
+    "Sse": [
+      {
+        "Endpoint": "https://localhost:7170",
+        "UseStreamableHttp": true,
+        "Name": "MyServer",
+        "ConnectionTimeout": "00:00:10"
+      }
+    ],
+    ,
+    "Stdio" : [
+        "Name": "MyStuff",
+        "Command": "npx",
+        "Arguments": ["-y", "--verbose", "@modelcontextprotocol/server-everything"],
+    ]
+  }
+````
+
+
 ### Start the project
 
-- start your MCP server (or use the provided one)
-- start the frontend
-- enjoy your lightweight environment!
+1. start your MCP server (or use the provided one signallama.mcp)
+1. start the frontend with signallama.web
+1. enjoy your lightweight environment!
   
-<img src="./imgs/Screenshot1.png" alt="logo" width="400"/>
+<img src="./imgs/Screenshot1.png" alt="logo" width="500"/>
 
 ## 🤝 Contributing
 

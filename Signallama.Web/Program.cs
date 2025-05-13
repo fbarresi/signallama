@@ -6,6 +6,7 @@ using ModelContextProtocol.Protocol.Transport;
 using Serilog;
 using Serilog.Core;
 using Signallama.Logic.Hubs;
+using Signallama.Web.Services;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -66,27 +67,47 @@ var chatOptions = new ChatOptions
     ModelId = settings.ModelId,
 };
 
+var tools = new List<AITool>();
+var clientCollection = new ClientCollectionService();
+
 try
 {
-    var sse = new SseClientTransport(new()
+    var mcpSettings = builder.Configuration.GetRequiredSection("McpSettings").Get<McpSettings>() ?? new McpSettings();
+    
+    foreach (var server in mcpSettings.Sse)
     {
-        Endpoint = new Uri("https://localhost:7170"),
-        UseStreamableHttp = true,
-        Name = "MyServer",
-        ConnectionTimeout = TimeSpan.FromSeconds(10),
-        AdditionalHeaders = null
-    });
-
-    await using var mcpClient = await McpClientFactory.CreateAsync(sse, new McpClientOptions
-    {
-        Capabilities = new() { Sampling = new() { SamplingHandler = client.CreateSamplingHandler() } },
-    });
-
-    var tools = await mcpClient.ListToolsAsync();
-    foreach (var tool in tools)
-    {
-        Log.Information($"Connected to server with tools: {tool.Name}");
+        var sse = new SseClientTransport(server);
+    
+        var mcpClient = await McpClientFactory.CreateAsync(sse, new McpClientOptions
+        {
+            Capabilities = new() { Sampling = new() { SamplingHandler = client.CreateSamplingHandler() } },
+        });
+        clientCollection.Add(mcpClient);
+        tools.AddRange(await mcpClient.ListToolsAsync());
+        
+        foreach (var tool in tools)
+        {
+            Log.Information("Connected to server {ServerName} with tools: {ToolName}", server.Name, tool.Name);
+        }
     }
+    
+    foreach (var command in mcpSettings.Stdio)
+    {
+        var stdio = new StdioClientTransport(command);
+    
+        var mcpClient = await McpClientFactory.CreateAsync(stdio, new McpClientOptions
+        {
+            Capabilities = new() { Sampling = new() { SamplingHandler = client.CreateSamplingHandler() } },
+        });
+        clientCollection.Add(mcpClient);
+        tools.AddRange(await mcpClient.ListToolsAsync());
+        
+        foreach (var tool in tools)
+        {
+            Log.Information("Connected to Stdio {ServerName} with tools: {ToolName}", command.Name, tool.Name);
+        }
+    }
+    
     chatOptions.Tools = [..tools];
 }
 catch (Exception e)
@@ -94,8 +115,8 @@ catch (Exception e)
     Log.Error(e, "Error connecting to MCP server");
 }
 
-
 builder.Services.AddSingleton(chatOptions);
+builder.Services.AddSingleton(clientCollection);
 //
 
 // Add usage over service
