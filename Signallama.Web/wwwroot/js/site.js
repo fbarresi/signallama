@@ -105,7 +105,7 @@ function appendMessage(isSender, message) {
 function createMessageElement(message, isSender, id) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('message', isSender ? 'sent' : 'received');
-    messageElement.innerText = message;
+    messageElement.innerHTML = marked.parse(message);
     if (id) {
         messageElement.id = id;
     }
