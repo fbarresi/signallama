@@ -54,7 +54,6 @@ or for example using external project over stdio:
         "ConnectionTimeout": "00:00:10"
       }
     ],
-    ,
     "Stdio" : [
         "Name": "MyStuff",
         "Command": "npx",
