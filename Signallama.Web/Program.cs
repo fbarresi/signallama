@@ -5,7 +5,7 @@ using ModelContextProtocol.Client;
 using ModelContextProtocol.Protocol.Transport;
 using Serilog;
 using Serilog.Core;
-using Signallama.Logic.Hubs;
+using Signallama.Web.Hubs;
 using Signallama.Web.Services;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -117,6 +117,9 @@ catch (Exception e)
 
 builder.Services.AddSingleton(chatOptions);
 builder.Services.AddSingleton(clientCollection);
+builder.Services.AddSingleton<DocumentStore>();
+builder.Services.AddSingleton<IHostedService, DocumentStore>(
+    serviceProvider => serviceProvider.GetService<DocumentStore>());
 //
 
 // Add usage over service

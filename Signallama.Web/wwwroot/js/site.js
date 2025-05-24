@@ -2,7 +2,7 @@
 // create hub connection
 var connection = new signalR.HubConnectionBuilder()
     .withUrl("/hubs/chat")
-    .withAutomaticReconnect([0, 3000, 5000, 10000, 15000, 30000])
+    .withAutomaticReconnect()
     .build();
 
 // perform stuff here before getting connected (e.g.: deactivate stuff...)

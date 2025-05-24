@@ -366,3 +366,4 @@ FodyWeavers.xsd
 
 #custom
 *appsettings.Development.json
+*local.db
